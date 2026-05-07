@@ -71,9 +71,6 @@ $ cat /etc/identity
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=codenamefez&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=00ff41&icon_color=ff6600&text_color=c9d1d9)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=codenamefez&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=00ff41&text_color=c9d1d9)
 
 ![GitHub Streak](https://streak-stats.demolab.com?user=codenamefez&theme=github-dark-blue&hide_border=true&background=0d1117&ring=00ff41&fire=ff6600&currStreakLabel=00ff41)
 
