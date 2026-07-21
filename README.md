@@ -14,7 +14,6 @@ I ship web apps, mobile clients, and the occasional hardware project — usually
 
 | Project | What it is | Why I build it |
 |---------|------------|----------------|
-
 | **[TakeHomeUK](https://github.com/codenamefez/takehomeuk)** | UK take-home pay calculator (tax, NI, pension, student loans) | This was born out of frustration of trying to work out just how much the tax man wanted of my hard earned money, expecially when it comes to bonus or payrises |
 
 
