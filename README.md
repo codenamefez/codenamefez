@@ -1,6 +1,10 @@
 # Hey, I'm codenamefez
 
-Developer / builder / tinkerer. I ship web apps, mobile clients, and the occasional hardware project — usually somewhere between a terminal and a deadline.
+But you can call me Adam
+
+I a serial Developer / builder / tinkerer. 
+
+I ship web apps, mobile clients, and the occasional hardware project — usually somewhere between a terminal and a deadline.
 
 🌐 [codenamefez.com](https://codenamefez.com)
 
