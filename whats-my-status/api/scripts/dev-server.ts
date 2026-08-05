@@ -2,6 +2,7 @@
  * Local development server for the Lambda API.
  * Usage: npm run dev (from api/)
  */
+import "./load-env.js";
 import { createServer } from "node:http";
 import type { APIGatewayProxyEventV2 } from "aws-lambda";
 import { handler } from "../src/index";

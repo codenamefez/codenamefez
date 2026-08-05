@@ -7,7 +7,9 @@
     "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.js --format=cjs",
     "dev": "tsx scripts/dev-server.ts",
     "typecheck": "tsc --noEmit",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "localstack:init": "tsx scripts/init-tables.ts",
+    "test:smoke": "tsx scripts/smoke-test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.750.0",
@@ -21,6 +23,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.17.19",
     "esbuild": "^0.25.0",
+    "dotenv": "^16.4.7",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3"
   }

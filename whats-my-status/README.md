@@ -11,43 +11,102 @@ whats-my-status/
 ├── api/          # Lambda API (Node.js 20)
 ├── web/          # Static React SPA (Vite)
 ├── terraform/    # AWS infrastructure
-└── scripts/      # Deploy helpers
+├── scripts/      # Deploy and local dev helpers
+└── docker-compose.yml  # LocalStack for local development
 ```
 
 ## Prerequisites
 
 - Node.js 20+
-- AWS CLI configured with appropriate credentials
+- Docker (for LocalStack local development)
+- AWS CLI configured with appropriate credentials (for production deploy)
 - Terraform 1.5+
 
-## Local development
+## Local development with LocalStack
 
-### 1. Start the API locally
+LocalStack provides a local DynamoDB instance so you can develop and test without AWS credentials or costs.
 
-The API uses DynamoDB in AWS even during local dev. Either:
-
-- Point AWS credentials at a dev AWS account and deploy terraform first, or
-- Use [DynamoDB Local](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html) (set `AWS_ENDPOINT_URL`)
+### Quick start
 
 ```bash
+# One-time setup: start LocalStack, create tables, seed data
+./scripts/local-dev-setup.sh
+
+# Terminal 1 — API dev server
+cd api && npm run dev
+
+# Terminal 2 — Web app
+cd web && npm run dev
+# Open http://localhost:5173 (admin password: changeme)
+```
+
+Or using Make:
+
+```bash
+make local-setup   # Start LocalStack + init + seed
+make api-dev       # Start API on :3001
+make web-dev       # Start web on :5173
+make smoke         # Run smoke tests (API must be running)
+```
+
+### Manual LocalStack steps
+
+```bash
+# 1. Start LocalStack
+./scripts/localstack-up.sh
+
+# 2. Configure the API for LocalStack
 cd api
-npm install
-npm run dev
-# API runs at http://localhost:3001
+cp .env.local.example .env.local
+
+# 3. Create DynamoDB tables
+npm run localstack:init
+
+# 4. Seed sample data
+npm run seed
+
+# 5. Start dev servers
+npm run dev          # API at http://localhost:3001
+cd ../web && npm run dev   # Web at http://localhost:5173
+
+# 6. Run smoke tests (with API running)
+cd ../api && npm run test:smoke
+
+# Stop LocalStack when done
+./scripts/localstack-down.sh
 ```
 
-### 2. Start the web app
+### How it works
+
+| Component | Local | Production |
+|-----------|-------|------------|
+| DynamoDB | LocalStack `:4566` | AWS DynamoDB |
+| API | Node dev server `:3001` | Lambda + API Gateway |
+| Web | Vite dev server `:5173` | S3 + CloudFront |
+
+The API detects LocalStack via `AWS_ENDPOINT_URL=http://localhost:4566` in `api/.env.local`. Table names automatically use the `whats-my-status-local-*` prefix.
+
+### Terraform against LocalStack (optional)
+
+To test Terraform changes locally with [tflocal](https://github.com/localstack/terraform-local):
 
 ```bash
-cd web
-npm install
-cp .env.example .env.local
-# Set VITE_API_URL=http://localhost:3001
-npm run dev
-# Web runs at http://localhost:5173
+pip install terraform-local
+./scripts/localstack-up.sh
+cd terraform/localstack
+tflocal init && tflocal apply
 ```
 
-Default admin password: `changeme` (set via `ADMIN_PASSWORD` env var on Lambda, or terraform variable)
+See [terraform/localstack/README.md](terraform/localstack/README.md) for details.
+
+## Local development (without LocalStack)
+
+If you prefer to use a real AWS dev account instead:
+
+```bash
+cd terraform && terraform apply   # creates DynamoDB tables in AWS
+cd ../api && npm run dev        # omit AWS_ENDPOINT_URL from .env.local
+```
 
 ## Deploy to AWS
 

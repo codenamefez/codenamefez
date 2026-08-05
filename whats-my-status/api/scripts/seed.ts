@@ -4,6 +4,7 @@
  *
  * Requires AWS credentials and TABLE env vars (or defaults).
  */
+import "./load-env.js";
 import { seedDatabase } from "../src/db/seed.js";
 
 const password = process.argv[2] || process.env.ADMIN_PASSWORD || "changeme";
