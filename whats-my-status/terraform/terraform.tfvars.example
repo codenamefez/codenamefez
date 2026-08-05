@@ -1,0 +1,5 @@
+aws_region       = "eu-west-2"
+project_name     = "whats-my-status"
+environment      = "prod"
+admin_password   = "changeme" # Change this before deploying to production
+cors_allow_origin = "*"      # Set to your CloudFront URL after first deploy
